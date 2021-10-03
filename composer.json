@@ -1,5 +1,5 @@
 {
-    "name": "YamabikoHatake/telescope-plus",
+    "name": "yamabiko-hatake/telescope-plus",
     "description": "telescope wrapper around query watcher.",
     "keywords": ["telescope", "laravel"],
     "license": "MIT",
@@ -10,13 +10,23 @@
     ],
     "require": {
         "php": "^8.0",
-        "laravel/telescope": "^4.0"
+        "ext-json": "*",
+        "laravel/framework": "^8.62"
     },
     "extra": {
         "laravel": {
             "providers": [
-                "TelescopePlus\\Laravel\\TelescopePlusServiceProvider"
+                "TelescopePlus\\TelescopePlusServiceProvider"
             ]
+        }
+    },
+    "require-dev": {
+        "laravel/telescope": "^4.6",
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "TelescopePlus\\": "src/"
         }
     }
 }
