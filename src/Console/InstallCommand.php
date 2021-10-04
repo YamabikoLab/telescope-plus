@@ -28,7 +28,10 @@ class InstallCommand extends Command
     public function handle()
     {
         $this->comment('Publishing Telescope Plus Assets...');
-        $this->callSilent('vendor:publish', ['--tag' => 'telescope-plus-assets']);
+        $this->callSilent('vendor:publish', [
+            '--tag' => 'telescope-plus-assets',
+            '--force' => true,
+        ]);
 
         $this->comment('Publishing Telescope Plus Configuration...');
         $this->callSilent('vendor:publish', ['--tag' => 'telescope-plus-config']);
