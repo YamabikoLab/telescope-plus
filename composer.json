@@ -1,5 +1,5 @@
 {
-    "name": "yamabiko-hatake/telescope-plus",
+    "name": "yamabiko/telescope-plus",
     "description": "Laravel Telescope wrapper",
     "keywords": ["telescope", "laravel"],
     "license": "MIT",
@@ -9,9 +9,8 @@
         }
     ],
     "require": {
-        "php": "^8.0",
-        "ext-json": "*",
-        "laravel/framework": "^8.62"
+        "php": "^7.3|^8.0",
+        "laravel/telescope": "^4.6"
     },
     "extra": {
         "laravel": {
@@ -21,7 +20,8 @@
         }
     },
     "require-dev": {
-        "laravel/telescope": "^4.6",
+        "ext-json": "*",
+        "laravel/framework": "^8.62",
         "phpunit/phpunit": "^9.5",
         "orchestra/testbench": "^6.21",
         "php-mock/php-mock": "^2.3"
