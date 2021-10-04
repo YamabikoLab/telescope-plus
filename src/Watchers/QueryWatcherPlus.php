@@ -11,11 +11,6 @@ use Laravel\Telescope\Watchers\QueryWatcher;
 
 class QueryWatcherPlus extends QueryWatcher
 {
-
-    public function __construct()
-    {
-    }
-
     /**
      * Record a query was executed.
      *
@@ -50,11 +45,12 @@ class QueryWatcherPlus extends QueryWatcher
      * @param integer $limit
      * @return string
      */
-    public function formatBacktrace():string
+    protected function formatBacktrace():string
     {
         try {
-            $backTrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, config('telescopeplus.query.limit'), 30);
-            $result = collect($backTrace)->map(function($item){
+            $backTrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, config('telescopeplus.query.limit', 30));
+            $highlights = config('telescopeplus.query.highlight', []);
+            $result = collect($backTrace)->map(function($item) use($highlights) {
                 if (array_key_exists('class', $item)) {
                     // クラス名を含む場合、クラス名を出力する
                     if (array_key_exists('line', $item)) {
@@ -74,27 +70,23 @@ class QueryWatcherPlus extends QueryWatcher
                     return;
                 }
 
-                $highlights = config('telescopeplus.query.highlight');
-
-                if(str_starts_with($line, 'App\\')) {
-                    // APP\始まる場合、赤でハイライト表示する
-                    $htmlLine = "<span style=\"font-weight: bold;color:red\">${line}</span>";
-                } else if(str_starts_with($line, 'Illuminate\\Database\\')) {
-                    // Illuminate\Database\で始まる場合、青でハイライト表示する
-                    $htmlLine = "<span style=\"font-weight: bold;color:blue\">${line}</span>";
-                } else if(strpos($line, '\\Middleware\\') !== false) {
-                    // \Middleware\を含む場合、緑でハイライト表示する
-                    $htmlLine = "<span style=\"font-weight: bold;color:green\">${line}</span>";
-                } else {
-                    $htmlLine = $line;
-                }
-
-                return $htmlLine;
+                return $this->getHtmlLine($line, $highlights);
             })->join('<br>');
 
              return $result;
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
+    }
+
+    private function getHtmlLine($line, $highlights) {
+        foreach($highlights as $item) {
+            if(strpos($line, $item['target']) !== false) {
+                $color = $item['color'];
+                return "<span style=\"font-weight: bold;color:${color}\">${line}</span>";
+            }
+        }
+
+        return $line;
     }
 }
