@@ -1,6 +1,6 @@
 {
     "name": "yamabiko-hatake/telescope-plus",
-    "description": "telescope wrapper around query watcher.",
+    "description": "Laravel Telescope wrapper",
     "keywords": ["telescope", "laravel"],
     "license": "MIT",
     "authors": [
@@ -23,7 +23,8 @@
     "require-dev": {
         "laravel/telescope": "^4.6",
         "phpunit/phpunit": "^9.5",
-        "orchestra/testbench": "^6.21"
+        "orchestra/testbench": "^6.21",
+        "php-mock/php-mock": "^2.3"
     },
     "autoload": {
         "psr-4": {
