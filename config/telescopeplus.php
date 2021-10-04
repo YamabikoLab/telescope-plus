@@ -1,22 +1,26 @@
 <?php
 
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | Telescope Query Watcher config
+    |--------------------------------------------------------------------------
+    | Limit parameter can be used to limit the number of stack frames returned. 
+    | You can specify the target and color using the highlight parameters.
+    */
     'query'=>[
         'limit' => 30,
         'highlight' => [
             [
                 'target' => 'App\\',
-                'search' => 'starts',
                 'color' => 'red'
             ],
             [
                 'target' => 'Illuminate\\Database\\',
-                'search' => 'starts',
                 'color' => 'blue'
             ],
             [
                 'target' => '\\Middleware\\',
-                'search' => 'contains',
                 'color' => 'green'
             ],
         ],

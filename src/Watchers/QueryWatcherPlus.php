@@ -5,6 +5,7 @@ namespace TelescopePlus\Watchers;
 use Exception;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
 use Laravel\Telescope\Watchers\QueryWatcher;
@@ -40,7 +41,7 @@ class QueryWatcherPlus extends QueryWatcher
     }
 
     /**
-     * html整形したバックトレースを返す
+     * html returns a formatted backtrace
      *
      * @param integer $limit
      * @return string
@@ -52,21 +53,21 @@ class QueryWatcherPlus extends QueryWatcher
             $highlights = config('telescopeplus.query.highlight', []);
             $result = collect($backTrace)->map(function($item) use($highlights) {
                 if (array_key_exists('class', $item)) {
-                    // クラス名を含む場合、クラス名を出力する
+                    // If the class name is included, the class name is output.
                     if (array_key_exists('line', $item)) {
-                        // 行番号を含む場合、行番号を出力する
+                        // If the line number is included, the line number is output.
                         $line = $item['class'] . ":" . $item['line'] . " " . $item['function'];
                     } else {
-                        // 行番号を含まない場合（クロージャの場合）、行番号を出力しない
+                        // If the line number is not included (in the case of closure), the line number is not output.
                         $line = $item['class'] . " " . $item['function'];
                     }
                 } else {
-                    // クラス名を含まない場合、ファイル名を出力する
+                    // If the class name is not included, the file name is output.
                     $line = $item['file'] . ":" . $item['line'] . " " . $item['function'];
                 }
 
-                if(str_starts_with($line, 'Laravel\\Telescope\\')) {
-                    // Telescopeのメソッド呼び出しは出力しない
+                if(Str::startsWith($line, 'Laravel\\Telescope\\')) {
+                    // Does not output Telescope method calls
                     return;
                 }
 
@@ -81,7 +82,7 @@ class QueryWatcherPlus extends QueryWatcher
 
     private function getHtmlLine($line, $highlights) {
         foreach($highlights as $item) {
-            if(strpos($line, $item['target']) !== false) {
+            if(Str::contains($line, $item['target'])) {
                 $color = $item['color'];
                 return "<span style=\"font-weight: bold;color:${color}\">${line}</span>";
             }
