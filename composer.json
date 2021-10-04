@@ -1,0 +1,39 @@
+{
+    "name": "yamabiko/telescope-plus",
+    "description": "Laravel Telescope wrapper",
+    "keywords": ["telescope", "laravel"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yamabiko"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "laravel/telescope": "^4.6"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TelescopePlus\\TelescopePlusServiceProvider"
+            ]
+        }
+    },
+    "require-dev": {
+        "ext-json": "*",
+        "laravel/framework": "^8.62",
+        "phpunit/phpunit": "^9.5",
+        "orchestra/testbench": "^6.21",
+        "php-mock/php-mock": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "TelescopePlus\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TelescopePlus\\Tests\\": "tests/"
+        }
+    }
+}
