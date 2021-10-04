@@ -1,0 +1,72 @@
+[
+    {
+        "description":"Telescopeログのため出力されないデータ",
+		"file": "/var/www/html/vendor/yamabiko/telescope-plus/src/Watchers/QueryWatcherPlus.php",
+		"line": 35,
+		"function": "formatBacktrace",
+		"class": "TelescopePlus\\Watchers\\QueryWatcherPlus",
+		"object": {
+			"options": {
+				"enabled": true,
+				"ignore_packages": true,
+				"slow": 100
+			}
+		},
+		"type": "->",
+		"args": []
+	},
+	{
+        "description":"色1 & class & line",
+		"file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Database/Connection.php",
+		"line": 878,
+		"function": "dispatch",
+		"class": "Illuminate\\Events\\Dispatcher",
+		"object": {},
+		"type": "->",
+		"args": [
+			"Illuminate\\Database\\Events\\QueryExecuted"
+		]
+	},
+	{
+        "description":"色2 & class",
+		"file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Session/Store.php",
+		"function": "read",
+		"class": "Illuminate\\Session\\DatabaseSessionHandler",
+		"object": {},
+		"type": "->",
+		"args": [
+			"9h08Q4NnlsTcxr2hrAVrtErQsH4qz0cKjmYa2OeJ"
+		]
+	},
+	{
+        "description":"色無し & file",
+		"file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+		"line": 697,
+		"function": "then",
+		"object": {},
+		"type": "->",
+		"args": [
+			{}
+		]
+	},
+	{
+        "description":"limit制限で出力されない",
+		"file": "/var/www/html/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+		"line": 103,
+		"function": "Illuminate\\Pipeline\\{closure}",
+		"class": "Illuminate\\Pipeline\\Pipeline",
+		"object": {},
+		"type": "->",
+		"args": [
+			{
+				"attributes": {},
+				"request": {},
+				"query": {},
+				"server": {},
+				"files": {},
+				"cookies": {},
+				"headers": {}
+			}
+		]
+	}
+]

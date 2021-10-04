@@ -2,33 +2,34 @@
 
 namespace TelescopePlus\Tests\Watchers;
 
+use Illuminate\Support\Facades\File;
+use Orchestra\Testbench\TestCase;
 use phpmock\MockBuilder;
 use ReflectionClass;
-use TelescopePlus\Tests\FeatureTestCase;
 use TelescopePlus\Watchers\QueryWatcherPlus;
 
-class QueryWatcherPlusTest extends FeatureTestCase
+class QueryWatcherPlusTest extends TestCase
 {
-    public function testHoge() {
-        // $builder = new MockBuilder();
-        // $builder->setNamespace('TelescopePlus\\Watchers')
-        //         ->setName("debug_backtrace")
-        //         ->setFunction(
-        //             function() {
-        //                 return [
-        //                     'hoge','fuga'
-        //                 ];
-        //             }
-        //         )
-        //         ->build()
-        //         ->enable();
+    public function test_formatBacktrace_When_all_the_test_data_of_the_normal_system_exists_Should_be_output_according_to_the_specifications() {
+        $data = json_decode(File::get(__DIR__ . '/../data/test.json'), true);
+        $builder = new MockBuilder();
+        $builder->setNamespace('TelescopePlus\\Watchers')
+                ->setName("debug_backtrace")
+                ->setFunction(
+                    function() use ($data) {
+                        return $data;
+                    }
+                )
+                ->build()
+                ->enable();
         
         $queryWatcherPlus = new QueryWatcherPlus();
         $reflection = new ReflectionClass($queryWatcherPlus);
         $method = $reflection->getMethod('formatBacktrace');
         $method->setAccessible(true);
         $result = $method->invokeArgs($queryWatcherPlus, []);
-        $this->assertNotNull($result);
+        $expect = "<br><span style=\"font-weight: bold;color:red\">Illuminate\Events\Dispatcher:878 dispatch</span><br><span style=\"font-weight: bold;color:blue\">Illuminate\Session\DatabaseSessionHandler read</span><br>/var/www/html/vendor/laravel/framework/src/Illuminate/Routing/Router.php:697 then<br>Illuminate\Pipeline\Pipeline:103 Illuminate\Pipeline\{closure}";
+        $this->assertEquals($expect, $result);
     }
 
     protected function getEnvironmentSetUp($app)
@@ -36,14 +37,14 @@ class QueryWatcherPlusTest extends FeatureTestCase
         parent::getEnvironmentSetUp($app);
 
         $config = $app->get('config');
-        $config->set('telescopeplus.query.limit', 30);
+        $config->set('telescopeplus.query.limit', 4);
         $config->set('telescopeplus.query.highlight',[
             [
-                'target' => 'TelescopePlus\\Watchers',
+                'target' => 'Illuminate\\Events',
                 'color' => 'red'
             ],
             [
-                'target' => '\\Framework\\',
+                'target' => '\\Session\\',
                 'color' => 'blue'
             ],
         ]);

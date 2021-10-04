@@ -20,7 +20,7 @@ class QueryWatcherPlus extends QueryWatcher
      */
     public function recordQuery(QueryExecuted $event)
     {
-        if (! Telescope::isRecording()) {
+        if (!Telescope::isRecording()) {
             return;
         }
 
@@ -46,12 +46,12 @@ class QueryWatcherPlus extends QueryWatcher
      * @param integer $limit
      * @return string
      */
-    protected function formatBacktrace():string
+    protected function formatBacktrace(): string
     {
         try {
             $backTrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, config('telescopeplus.query.limit', 30));
             $highlights = config('telescopeplus.query.highlight', []);
-            $result = collect($backTrace)->map(function($item) use($highlights) {
+            $result = collect($backTrace)->map(function ($item) use ($highlights) {
                 if (array_key_exists('class', $item)) {
                     // If the class name is included, the class name is output.
                     if (array_key_exists('line', $item)) {
@@ -66,7 +66,7 @@ class QueryWatcherPlus extends QueryWatcher
                     $line = $item['file'] . ":" . $item['line'] . " " . $item['function'];
                 }
 
-                if(Str::startsWith($line, 'Laravel\\Telescope\\')) {
+                if (!$this->canOutput($line)) {
                     // Does not output Telescope method calls
                     return;
                 }
@@ -74,15 +74,25 @@ class QueryWatcherPlus extends QueryWatcher
                 return $this->getHtmlLine($line, $highlights);
             })->join('<br>');
 
-             return $result;
+            return $result;
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
     }
 
-    private function getHtmlLine($line, $highlights) {
-        foreach($highlights as $item) {
-            if(Str::contains($line, $item['target'])) {
+    private function canOutput(string $line): bool
+    {
+        if (Str::startsWith($line, 'Laravel\\Telescope\\') || Str::startsWith($line, 'TelescopePlus\\Watchers\\')) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private function getHtmlLine(string $line, array $highlights): string
+    {
+        foreach ($highlights as $item) {
+            if (Str::contains($line, $item['target'])) {
                 $color = $item['color'];
                 return "<span style=\"font-weight: bold;color:${color}\">${line}</span>";
             }
