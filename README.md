@@ -9,7 +9,7 @@ We will continue to add functions as needed.
 )
 # Installation
 ```bash
-composer require yamabiko/teltescope-plus --dev
+composer require yamabiko/telescope-plus --dev
 
 php artisan telescope-plus:install
 ```
