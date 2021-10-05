@@ -1,7 +1,7 @@
 # Telescope Plus
 # Introduction
 Telescope Plus is an extension of Laravel Telescope.
-
+We will continue to add functions as needed.
 ## Query Watcher Plus
 ![](https://user-images.githubusercontent.com/88073693/135932316-3a737ac9-8123-406a-b840-da9acec52130.png)
 

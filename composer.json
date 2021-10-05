@@ -9,8 +9,8 @@
         }
     ],
     "require": {
-        "php": "^7.3|^8.0",
-        "laravel/telescope": "^4.6"
+        "php": ">=7.3|>=8.0",
+        "laravel/telescope": ">=4.0"
     },
     "extra": {
         "laravel": {
